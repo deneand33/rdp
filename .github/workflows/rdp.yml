@@ -14,7 +14,7 @@ jobs:
       - name: Download and Install Playit
         shell: powershell
         run: |
-          Invoke-WebRequest -Uri "https://github.com/playit-cloud/playi..." -OutFile "$env:USERPROFILE\playit.exe"
+          Invoke-WebRequest -Uri "https://objects.githubusercontent.com/github-production-release-asset-2e65be/445695426/32eabda6-9ae2-48eb-a335-b1afeba0cad0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250220%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250220T015042Z&X-Amz-Expires=300&X-Amz-Signature=56912d9e17ff225877554d9e1fbba67b628d56f478cd8f97134bec0935973ed3&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dplayit-windows-x86_64-signed.exe&response-content-type=application%2Foctet-stream"
           Start-Sleep -Seconds 5  # Give some time for the download to complete
 
       - name: Enable TS (Remote Desktop)
