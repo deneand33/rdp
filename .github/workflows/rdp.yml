@@ -1,11 +1,11 @@
 name: Playit Setup and Keep Alive
 
 on:
-  workflow_dispatch: # Allows manual triggering of the workflow
+  workflow_dispatch:
 
 jobs:
   setup_and_keep_alive:
-    runs-on: windows-latest # or a specific Windows version
+    runs-on: windows-latest
 
     steps:
       - name: Check out the repository
@@ -14,8 +14,9 @@ jobs:
       - name: Download and Install Playit
         shell: powershell
         run: |
-          Invoke-WebRequest -Uri "https://github.com/playit-cloud/playit-agent/releases/download/v0.15.26/playit-windows-x86_64.exe" -OutFile "$env:USERPROFILE\playit.exe"
-          Start-Sleep -Seconds 5  # Give some time for the download to complete
+          $url = "https://github.com/playit-cloud/playit-agent/releases/download/v0.15.26/playit-windows-x86_64.exe"
+          Invoke-WebRequest -Uri $url -OutFile "$env:USERPROFILE\playit.exe"
+          Start-Sleep -Seconds 5
 
       - name: Enable TS (Remote Desktop)
         shell: powershell
@@ -28,12 +29,12 @@ jobs:
       - name: Run playit
         shell: powershell
         env:
-          PLAYIT_AUTH_KEY: ${{ secrets.PL }}
+          PLAYIT_AUTH_KEY: ${{ secrets.PLAYIT_AUTH_KEY }}
         run: |
-          Start-Process -FilePath "$env:USERPROFILE\playit.exe" -ArgumentList "--secret $env:PLAYIT_AUTH_KEY" -NoNewWindow -Wait
+          Start-Process -FilePath "$env:USERPROFILE\playit.exe" -ArgumentList "--secret", $env:PLAYIT_AUTH_KEY -NoNewWindow -Wait
           Start-Process -FilePath "$env:USERPROFILE\playit.exe" -NoNewWindow
 
       - name: Keep the GitHub Action Runner Alive
         shell: bash
         run: |
-          sleep 21600 # Keep the runner alive for 6 hours
+          sleep 21600
